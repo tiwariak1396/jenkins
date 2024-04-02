@@ -54,14 +54,18 @@ pipeline {
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
-                    set -x  # Enable debugging mode
-                    git config user.email "tiwariak1396@gmail.com"
-                    git config user.name "tiwariak1396"
-                    BUILD_NUMBER=${BUILD_NUMBER}
-                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-                    git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                set -x  # Enable debugging mode
+                git config user.email "tiwariak1396@gmail.com"
+                git config user.name "tiwariak1396"
+                BUILD_NUMBER=${BUILD_NUMBER}
+                pwd  # Print current working directory for debugging
+                ls -l  # List files in the current directory for debugging
+                sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml  # Print contents of the YAML file after sed command for debugging
+                git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                git status  # Print Git status for debugging
+                git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
             }
         }
