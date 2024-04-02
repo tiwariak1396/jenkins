@@ -64,6 +64,7 @@ pipeline {
                 cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml  # Print contents of the YAML file after sed command for debugging
                 git add -A  # Add all modified files except untracked ones
                 git reset -- java-maven-sonar-argocd-helm-k8s/spring-boot-app/target/  # Exclude target directory from being tracked
+                git reset -- java-maven-sonar-argocd-helm-k8s/spring-boot-app/target/*  # Exclude files inside target directory from being tracked
                 git status  # Print Git status for debugging
                 git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                 git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
