@@ -54,6 +54,7 @@ pipeline {
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
+                    set -x  # Enable debugging mode
                     git config user.email "tiwariak1396@gmail.com"
                     git config user.name "tiwariak1396"
                     BUILD_NUMBER=${BUILD_NUMBER}
